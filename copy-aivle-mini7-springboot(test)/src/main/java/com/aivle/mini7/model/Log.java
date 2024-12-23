@@ -4,25 +4,24 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+// Log 테이블
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Table(name = "log")
 public class Log {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String datetime;
-
-//    @Column(nullable = false)
-//    private LocalDateTime datetime;  // String -> LocalDateTime으로 변경
+    private LocalDateTime datetime;
 
     @Column(name = "input_text", nullable = false)
     private String inputText;
@@ -36,30 +35,15 @@ public class Log {
     @Column(name = "em_class", nullable = false)
     private Integer emClass;
 
-    @Column(nullable = false)
-    private String hospital1;
+    @Column
+    private String summary;
 
-    @Column(nullable = false)
-    private String addr1;
+    @Builder.Default
+    @OneToMany(mappedBy = "log", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Hospital> hospitals = new ArrayList<>();
 
-    @Column(nullable = false)
-    private String tel1;
-
-    @Column(nullable = false)
-    private String hospital2;
-
-    @Column(nullable = false)
-    private String addr2;
-
-    @Column(nullable = false)
-    private String tel2;
-
-    @Column(nullable = false)
-    private String hospital3;
-
-    @Column(nullable = false)
-    private String addr3;
-
-    @Column(nullable = false)
-    private String tel3;
+    public void addHospital(Hospital hospital) {
+        this.hospitals.add(hospital);
+        hospital.setLog(this);
+    }
 }

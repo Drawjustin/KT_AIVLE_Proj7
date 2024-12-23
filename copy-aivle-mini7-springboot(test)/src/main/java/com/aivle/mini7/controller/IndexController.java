@@ -1,6 +1,7 @@
 package com.aivle.mini7.controller;
 
 import com.aivle.mini7.client.api.FastApiClient;
+import com.aivle.mini7.client.dto.EmergencyAnalysisResponse;
 import com.aivle.mini7.client.dto.HospitalResponse;
 import com.aivle.mini7.service.LogService;
 import lombok.RequiredArgsConstructor;
@@ -26,22 +27,28 @@ public class IndexController {
     }
 
     @GetMapping("/recommend_hospital")
-    public ModelAndView recommend_hospital(@RequestParam("request") String request, @RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
+    public ModelAndView recommend_hospital(
+            @RequestParam("request") String request,
+            @RequestParam("latitude") double latitude,
+            @RequestParam("longitude") double longitude,
+            @RequestParam(value = "the_number_of_hospital", defaultValue = "3") int numberOfHospitals){
 
 
 //        FastApiClient 를 호출한다.
-        List<HospitalResponse> hospitalList = fastApiClient.getHospital(request, latitude, longitude);
-        log.info("hospital: {}", hospitalList);
+        EmergencyAnalysisResponse response =
+                fastApiClient.getHospital(request, latitude, longitude, numberOfHospitals);
+        log.info("hospital: {}", response);
 
-//        emclass는 AI의 api를 고치기 힘들어서 일단 하드코딩으로 마무리한다.
-        if(hospitalList !=null){
-            logService.saveLog(hospitalList, request, latitude, longitude,4);
+//        강사님이 적어놓으신 emclass의 하드 코딩 수정
+        if(response.getResult() !=null){
+            logService.saveLog(response, request, latitude, longitude);
         }
-
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("recommend_hospital");
-        mv.addObject("hospitalList", hospitalList);
+        mv.addObject("summary", response.getSummary());
+        mv.addObject("predictedClass", response.getPredictedClass());
+        mv.addObject("hospitalList", response.getResult());
 
         return mv;
     }

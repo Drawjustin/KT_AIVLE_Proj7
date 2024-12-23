@@ -30,6 +30,7 @@ function initializeForm() {
             const request = document.getElementById('request').value;
             const latitude = document.getElementById('latitude').value;
             const longitude = document.getElementById('longitude').value;
+            const the_number_of_hospital = document.getElementById('hospitalNum').value;
 
             if (!request || !latitude || !longitude) {
                 alert('모든 필드를 채워주세요.');
@@ -42,7 +43,7 @@ function initializeForm() {
                 return;
             }
 
-            window.location.href = `/recommend_hospital?request=${encodeURIComponent(request)}&latitude=${latitude}&longitude=${longitude}`;
+            window.location.href = `/recommend_hospital?request=${encodeURIComponent(request)}&latitude=${latitude}&longitude=${longitude}&the_number_of_hospital=${the_number_of_hospital}`;
         });
     }
 }
@@ -67,8 +68,20 @@ function initializeNavigation() {
     });
 }
 
+// 슬라이더 효과
+function slider() {
+    const slideValue = document.querySelector(".right");
+    const inputSlider = document.querySelector("#hospitalNum");
+    inputSlider.addEventListener("input", () => {
+        let rangeVal = inputSlider.value;
+        slideValue.innerText = rangeVal;
+    });
+}
+
 // 페이지 초기화
 document.addEventListener('DOMContentLoaded', function() {
     initializeForm();
     initializeNavigation();
+    slider();
 });
+

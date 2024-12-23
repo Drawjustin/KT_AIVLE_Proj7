@@ -1,21 +1,21 @@
 package com.aivle.mini7.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class HospitalResponse {
     private String hospitalName;
     private String address;
-    private String emergencyMedicalInstitutionType;
     private String phoneNumber1;
-    private String phoneNumber3;
-    private String request;
-    private double distance;
-
+    private String phoneNumber2;
+    private String hospitalType;
+    private Double distance;
+    private Double predictedDuration;
+    private Double realDuration;
 }
-
 
 

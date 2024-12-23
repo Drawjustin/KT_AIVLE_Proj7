@@ -4,6 +4,8 @@ import com.aivle.mini7.model.Log;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LogDto {
@@ -14,39 +16,90 @@ public class LogDto {
     @AllArgsConstructor
     @Builder
     public static class ResponseList {
-        //        Log의 항목들을 적어야함
+        private Integer id;  // ID 필드 추가
         private String inputText;
-        private String datetime;
+        private LocalDateTime datetime;
+        private String summary;    // summary 필드 추가
         private Double inputLatitude;
         private Double inputLongitude;
         private Integer emClass;
-        private String hospital1;
-        private String addr1;
-        private String tel1;
-        private String hospital2;
-        private String addr2;
-        private String tel2;
-        private String hospital3;
-        private String addr3;
-        private String tel3;
+        private List<HospitalInfo> hospitals;  // 병원 정보를 리스트로 관리
 
-        public static LogDto.ResponseList of(Log log) {
-            return ResponseList.builder()
+        @Getter
+        @Setter
+        @NoArgsConstructor
+        @AllArgsConstructor
+        @Builder
+        public static class HospitalInfo {
+            private String name;
+            private String addr;
+            private String tel1;
+            private String tel2;
+            private String hospitalType;
+            private Double distance;
+            private Double predDuration;
+            private Double realDuration;
+        }
+
+//        public static ResponseList of(Log log) {
+//            ResponseList dto = ResponseList.builder()
+//                    .id(log.getId())
+//                    .inputText(log.getInputText())
+//                    .datetime(log.getDatetime())
+//                    .summary(log.getSummary())
+//                    .inputLatitude(log.getInputLatitude())
+//                    .inputLongitude(log.getInputLongitude())
+//                    .emClass(log.getEmClass())
+//                    .build();
+//
+//            // 병원 정보를 리스트로 변환
+//            dto.setHospitals(log.getHospitals().stream()
+//                    .map(hospital -> HospitalInfo.builder()
+//                            .name(hospital.getName())
+//                            .addr(hospital.getAddr())
+//                            .tel1(hospital.getTel1())
+//                            .tel2(hospital.getTel2())
+//                            .hospitalType(hospital.getHospitalType())
+//                            .distance(hospital.getDistance())
+//                            .predDuration(hospital.getPredDuration())
+//                            .realDuration(hospital.getRealDuration())
+//                            .build())
+//                    .collect(Collectors.toList()));
+//
+//            return dto;
+//        }
+        public static ResponseList of(Log log) {
+            System.out.println("Converting Log ID: " + log.getId());
+            System.out.println("Raw hospitals size: " + log.getHospitals().size());
+
+            List<HospitalInfo> hospitalInfos = log.getHospitals().stream()
+                    .peek(h -> System.out.println("Processing hospital: " + h.getName()))
+                    .map(hospital -> HospitalInfo.builder()
+                            .name(hospital.getName())
+                            .addr(hospital.getAddr())
+                            .tel1(hospital.getTel1())
+                            .tel2(hospital.getTel2())
+                            .hospitalType(hospital.getHospitalType())
+                            .distance(hospital.getDistance())
+                            .predDuration(hospital.getPredDuration())
+                            .realDuration(hospital.getRealDuration())
+                            .build())
+                    .collect(Collectors.toList());
+
+            System.out.println("Converted hospitals size: " + hospitalInfos.size());
+
+            ResponseList dto = ResponseList.builder()
+                    .id(log.getId())
                     .inputText(log.getInputText())
                     .datetime(log.getDatetime())
+                    .summary(log.getSummary())
                     .inputLatitude(log.getInputLatitude())
                     .inputLongitude(log.getInputLongitude())
                     .emClass(log.getEmClass())
-                    .hospital1(log.getHospital1())
-                    .addr1(log.getAddr1())
-                    .tel1(log.getTel1())
-                    .hospital2(log.getHospital2())
-                    .addr2(log.getAddr2())
-                    .tel2(log.getTel2())
-                    .hospital3(log.getHospital3())
-                    .addr3(log.getAddr3())
-                    .tel3(log.getTel3())
+                    .hospitals(hospitalInfos)
                     .build();
+
+            return dto;
         }
     }
 }

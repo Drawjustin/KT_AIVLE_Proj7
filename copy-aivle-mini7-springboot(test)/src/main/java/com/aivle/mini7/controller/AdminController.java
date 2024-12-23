@@ -40,7 +40,11 @@ public class AdminController {
 
         if (Boolean.TRUE.equals(showAll)) {
             // 전체 조회
-            logList = logService.getLogList(pageRequest);
+//            logList = logService.getLogList(pageRequest);
+            // 날짜 필터링 조회
+            startDate = LocalDate.parse("1900-01-01");
+            endDate = LocalDate.now();
+            logList = logService.getLogList(startDate, endDate, pageRequest);
         } else {
             // 날짜 필터링 조회
             if (startDate == null) startDate = LocalDate.now().minusMonths(1);

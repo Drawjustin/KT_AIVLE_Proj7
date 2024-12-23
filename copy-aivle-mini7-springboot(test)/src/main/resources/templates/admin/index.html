@@ -106,10 +106,9 @@
                             <div class="text-sm text-gray-900" th:text="${log.inputText}"></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">
-                                <span th:text="${log.datetime}" class="date-format"></span>
+                            <div class="text-sm text-gray-900"
+                                 th:text="${#temporals.format(log.datetime, 'yyyy-MM-dd HH:mm')}">
                             </div>
-<!--                            <div class="text-sm text-gray-900" th:text="${log.datetime}"></div>-->
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm text-gray-900">
@@ -124,26 +123,42 @@
                                     </span>
                         </td>
                         <td class="px-6 py-4">
-                            <details class="text-sm text-gray-900">
-                                <summary class="cursor-pointer hover:text-blue-600">병원 정보 보기</summary>
-                                <div class="mt-2 space-y-2">
-                                    <div th:if="${log.hospital1}" class="pl-4 border-l-2 border-gray-200">
-                                        <div class="font-medium" th:text="${log.hospital1}"></div>
-                                        <div class="text-gray-600 text-xs" th:text="${log.addr1}"></div>
-                                        <div class="text-gray-500 text-xs" th:text="${log.tel1}"></div>
+                            <div class="space-y-2">
+                                <details>
+                                    <summary class="cursor-pointer hover:text-blue-600">병원 정보 보기</summary>
+                                    <div class="mt-2 space-y-4">
+                                        <div th:if="${log.hospitals != null and !log.hospitals.empty}">
+                                            <div th:each="hospital : ${log.hospitals}" class="pl-4 border-l-2 border-gray-200">
+                                                <div class="font-medium" th:text="${hospital.name}"></div>
+                                                <div class="text-gray-600 text-xs">
+                                                    <div th:text="${hospital.addr}"></div>
+                                                    <div th:text="${hospital.tel1}"></div>
+                                                    <div th:if="${hospital.tel2}" th:text="${hospital.tel2}"></div>
+                                                    <div th:if="${hospital.hospitalType}" class="mt-1">
+                                                        <span class="font-medium">병원 유형:</span>
+                                                        <span th:text="${hospital.hospitalType}"></span>
+                                                    </div>
+                                                    <div class="mt-1">
+                                                        <span class="font-medium">거리:</span>
+                                                        <span th:text="${#numbers.formatDecimal(hospital.distance, 1, 2) + ' km'}"></span>
+                                                    </div>
+                                                    <div th:if="${hospital.predDuration != null}">
+                                                        <span class="font-medium">예상 소요시간:</span>
+                                                        <span th:text="${#numbers.formatDecimal(hospital.predDuration, 1, 0) + ' 분'}"></span>
+                                                    </div>
+                                                    <div th:if="${hospital.realDuration != null}">
+                                                        <span class="font-medium">실제 소요시간:</span>
+                                                        <span th:text="${#numbers.formatDecimal(hospital.realDuration, 1, 0) + ' 분'}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div th:if="${log.hospitals == null or log.hospitals.empty}">
+                                            병원 정보가 없습니다.
+                                        </div>
                                     </div>
-                                    <div th:if="${log.hospital2}" class="pl-4 border-l-2 border-gray-200">
-                                        <div class="font-medium" th:text="${log.hospital2}"></div>
-                                        <div class="text-gray-600 text-xs" th:text="${log.addr2}"></div>
-                                        <div class="text-gray-500 text-xs" th:text="${log.tel2}"></div>
-                                    </div>
-                                    <div th:if="${log.hospital3}" class="pl-4 border-l-2 border-gray-200">
-                                        <div class="font-medium" th:text="${log.hospital3}"></div>
-                                        <div class="text-gray-600 text-xs" th:text="${log.addr3}"></div>
-                                        <div class="text-gray-500 text-xs" th:text="${log.tel3}"></div>
-                                    </div>
-                                </div>
-                            </details>
+                                </details>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
