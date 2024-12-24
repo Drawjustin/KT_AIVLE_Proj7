@@ -146,17 +146,45 @@ def recommend_hospital3(path, emergency, start_lat, start_lng, c_id, c_key):
         "distance": row["거리"]
     }, axis=1).tolist()
     return result_json
+    # return sorted_temp
 
 def recommend_hospital(path, emergency, start_lat, start_lng, c_id, c_key, the_number_of_hospital):
-
-    # 위도 경도에 ± 0.5 범위에서 먼저 조회
-    temp = emergency.loc[emergency['위도'].between(start_lat-0.05, start_lat+0.05) & emergency['경도'].between(start_lng-0.05, start_lng+0.05)].copy()
-    # display(temp)
-
+    import logging
+ 
+    # 로그 설정
+    logging.basicConfig(level=logging.INFO)  # INFO 수준의 로그 출력
+    logger = logging.getLogger(__name__)
+    # 초기 범위 설정
+    range_delta = 0.05  # 범위 증분값 (± 0.05)
+    max_range = 1.0     # 최대 범위 (무한 반복 방지)
+    current_range = range_delta
+ 
+    
+    
+    while True:
+        # 현재 범위에서 병원 조회
+        temp = emergency.loc[
+            emergency['위도'].between(start_lat - current_range, start_lat + current_range) &
+            emergency['경도'].between(start_lng - current_range, start_lng + current_range)
+        ].copy()
+        
+        
+        # **로그 추가**: 반복문 동작 상태 확인
+        logger.info(f"Current range: ±{current_range}")
+        logger.info(f"Number of hospitals found: {len(temp)}")
+        
+        # 원하는 병원 수에 도달하거나 최대 범위를 초과한 경우
+        if len(temp) >= the_number_of_hospital or current_range >= max_range:
+            break
+        
+        # 범위를 증가
+        current_range += range_delta
+    
+    
     # 거리 계산
     temp['거리'] = temp.apply(lambda x: get_dist(start_lat, start_lng, x['위도'], x['경도'], c_id, c_key), axis=1)
+    # 병원을 거리 기준으로 정렬
     sorted_temp = temp.sort_values(by='거리', na_position='last').head(the_number_of_hospital)
-
     # 결과를 JSON 형태로 변환
     result_json = sorted_temp.apply(lambda row: {
         "hospitalName": row["병원이름"],
@@ -166,11 +194,10 @@ def recommend_hospital(path, emergency, start_lat, start_lng, c_id, c_key, the_n
         "phoneNumber2": row["전화번호 3"],
         "latitude": row["위도"],
         "longitude": row["경도"],
-        "distance": row["거리"]
+        "distance": row["거리"],
     }, axis=1).tolist()
+ 
     return result_json
-    # return sorted_temp
-
 def getCode(request):
     path=''
     # 모델, 토크나이저 로드
