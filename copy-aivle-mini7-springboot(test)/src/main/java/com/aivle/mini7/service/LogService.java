@@ -44,15 +44,20 @@ public class LogService {
 //                .map(LogDto.ResponseList::of);
         Page<Log> logs = logRepository.findByDatetimeBetween(startDateTime, endDateTime, pageable);
 
+        List<Log> logList = logs.getContent();
+
+        for (Log log1 : logList) {
+            System.out.println("log1.toString() = " + log1.toString());
+        }
         // 디버깅을 위한 코드
-        logs.getContent().forEach(log -> {
-            Log logWithHospitals = logRepository.findByIdWithHospitals(log.getId())
-                    .orElseThrow(() -> new RuntimeException("Log not found"));
-            System.out.println("Log ID: " + log.getId());
-            System.out.println("Actual hospitals count: " + logWithHospitals.getHospitals().size());
-            logWithHospitals.getHospitals().forEach(h ->
-                    System.out.println("Hospital: " + h.getName()));
-        });
+//        logs.getContent().forEach(log -> {
+//            Log logWithHospitals = logRepository.findByIdWithHospitals(log.getId())
+//                    .orElseThrow(() -> new RuntimeException("Log not found"));
+//            System.out.println("Log ID: " + log.getId());
+//            System.out.println("Actual hospitals count: " + logWithHospitals.getHospitals().size());
+//            logWithHospitals.getHospitals().forEach(h ->
+//                    System.out.println("Hospital: " + h.getName()));
+//        });
 
         return logs.map(LogDto.ResponseList::of);
     }

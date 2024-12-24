@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -50,6 +51,7 @@ public class AdminController {
             if (startDate == null) startDate = LocalDate.now().minusMonths(1);
             if (endDate == null) endDate = LocalDate.now();
             logList = logService.getLogList(startDate, endDate, pageRequest);
+
         }
 
         mv.addObject("logList", logList);

@@ -1,0 +1,1 @@
+-- insert into hosptial(em_class,_name,addr,tel1,tel2,hospital_type,distance,pred_duration,real_duration,log_id) values (1,'아주대학교병원','경기도 수원시 영통구 월드컵로 164 (원천동)', '031-219-5114', '031-219-7777',,0.923,)

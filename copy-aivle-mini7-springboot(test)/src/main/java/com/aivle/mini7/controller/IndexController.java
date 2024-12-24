@@ -34,10 +34,12 @@ public class IndexController {
             @RequestParam(value = "the_number_of_hospital", defaultValue = "3") int numberOfHospitals){
 
 
+
 //        FastApiClient 를 호출한다.
         EmergencyAnalysisResponse response =
                 fastApiClient.getHospital(request, latitude, longitude, numberOfHospitals);
-        log.info("hospital: {}", response);
+
+        log.info("hospital: {}", response.getResult().toString());
 
 //        강사님이 적어놓으신 emclass의 하드 코딩 수정
         if(response.getResult() !=null){

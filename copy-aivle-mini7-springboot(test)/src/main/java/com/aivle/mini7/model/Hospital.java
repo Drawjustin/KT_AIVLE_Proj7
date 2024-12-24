@@ -62,4 +62,20 @@ public class Hospital {
     protected void setLog(Log log) {
         this.log = log;
     }
+
+    @Override
+    public String toString() {
+        return "Hospital{" +
+                "id=" + id +
+                ", emClass=" + emClass +
+                ", name='" + name + '\'' +
+                ", addr='" + addr + '\'' +
+                ", tel1='" + tel1 + '\'' +
+                ", tel2='" + tel2 + '\'' +
+                ", hospitalType='" + hospitalType + '\'' +
+                ", distance=" + distance +
+                ", predDuration=" + predDuration +
+                ", realDuration=" + realDuration +
+                '}';
+    }
 }

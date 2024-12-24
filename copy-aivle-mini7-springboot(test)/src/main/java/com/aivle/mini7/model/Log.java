@@ -46,4 +46,82 @@ public class Log {
         this.hospitals.add(hospital);
         hospital.setLog(this);
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getInputText() {
+        return inputText;
+    }
+
+    public void setInputText(String inputText) {
+        this.inputText = inputText;
+    }
+
+    public Double getInputLatitude() {
+        return inputLatitude;
+    }
+
+    public void setInputLatitude(Double inputLatitude) {
+        this.inputLatitude = inputLatitude;
+    }
+
+    public Double getInputLongitude() {
+        return inputLongitude;
+    }
+
+    public void setInputLongitude(Double inputLongitude) {
+        this.inputLongitude = inputLongitude;
+    }
+
+    public Integer getEmClass() {
+        return emClass;
+    }
+
+    public void setEmClass(Integer emClass) {
+        this.emClass = emClass;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public List<Hospital> getHospitals() {
+        return hospitals;
+    }
+
+    public void setHospitals(List<Hospital> hospitals) {
+        this.hospitals = hospitals;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", datetime=" + datetime +
+                ", inputText='" + inputText + '\'' +
+                ", inputLatitude=" + inputLatitude +
+                ", inputLongitude=" + inputLongitude +
+                ", emClass=" + emClass +
+                ", summary='" + summary + '\'' +
+                ", hospitals=" + hospitals +
+                '}';
+    }
 }
