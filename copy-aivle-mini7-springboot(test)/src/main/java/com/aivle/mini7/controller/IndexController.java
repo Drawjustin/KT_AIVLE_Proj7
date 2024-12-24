@@ -39,7 +39,6 @@ public class IndexController {
         EmergencyAnalysisResponse response =
                 fastApiClient.getHospital(request, latitude, longitude, numberOfHospitals);
 
-        log.info("hospital: {}", response.getResult().toString());
 
 //        강사님이 적어놓으신 emclass의 하드 코딩 수정
         if(response.getResult() !=null){
@@ -53,6 +52,10 @@ public class IndexController {
         mv.addObject("hospitalList", response.getResult());
 
         return mv;
+    }
+    @GetMapping("/about")
+    public String about() {
+        return "about"; // about.html을 반환
     }
 }
 

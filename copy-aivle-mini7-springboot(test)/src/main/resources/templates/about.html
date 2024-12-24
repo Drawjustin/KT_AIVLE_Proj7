@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/base :: html(~{::title}, ~{::main}, ~{::additional-styles}, ~{::additional-scripts})}">
+<head>
+    <title>About Us - Aivle School 7기</title>
+    <additional-styles>
+        <!-- 추가 스타일이 필요한 경우 여기에 -->
+        <style>
+            .about-section {
+                background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+                color: white;
+                padding: 60px 20px;
+            }
+            .about-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .about-content {
+                font-size: 1.2rem;
+                line-height: 1.8;
+                max-width: 800px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .team-section {
+                background: white;
+                padding: 60px 20px;
+            }
+            .team-title {
+                font-size: 2rem;
+                font-weight: 600;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            .team-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .team-member {
+                text-align: center;
+                padding: 20px;
+                background: #f9f9f9;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .team-member img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+            }
+            .team-member h3 {
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+            .team-member p {
+                font-size: 0.9rem;
+                color: #555;
+            }
+        </style>
+    </additional-styles>
+</head>
+<body>
+<main>
+    <!-- About Section -->
+    <section class="about-section">
+        <h1 class="about-title">About Aivle School 7기</h1>
+        <p class="about-content">
+            AI 2조는 혁신적인 사고와 기술로 세상을 변화시키고자 하는 열정을 가진 사람들이 모인 팀입니다.
+            디지털 기술과 창의력을 활용해 더 나은 미래를 만들어가며,
+            팀워크와 협력을 통해 지속 가능한 성장과 사회적 기여를 추구합니다.
+        </p>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <h2 class="team-title">Meet Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="/images/KHY.jpg" alt="Team Member">
+                <h3>김효연</h3>
+                <p>개발자</p>
+            </div>
+            <div class="team-member">
+                <img src="/images/PJE.jpg" alt="Team Member">
+                <h3>박정은</h3>
+                <p>개발자</p>
+            </div>
+            <div class="team-member">
+                <img src="/images/CKY.jpg" alt="Team Member">
+                <h3>조강윤</h3>
+                <p>개발자</p>
+            </div>
+            <div class="team-member">
+                <img src="/images/hamster.jpg" alt="Team Member">
+                <h3>유지현</h3>
+                <p>개발자</p>
+            </div>
+            <div class="team-member">
+                <img src="/images/YHJ.jpg" alt="Team Member">
+                <h3>유현종</h3>
+                <p>개발자</p>
+            </div>
+            <div class="team-member">
+                <img src="/images/PJS.jpg" alt="Team Member">
+                <h3>박지성</h3>
+                <p>개발자</p>
+            </div>
+
+        </div>
+    </section>
+</main>
+</body>
+<!-- about.html에만 필요한 추가 스크립트를 정의 -->
+<additional-scripts>
+    <script th:src="@{/js/about.js}" defer></script>
+</additional-scripts>
+</html>
+
